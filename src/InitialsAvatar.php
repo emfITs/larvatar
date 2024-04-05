@@ -2,8 +2,10 @@
 
 namespace Renfordt\Larvatar;
 
+use Illuminate\Support\Facades\Config;
 use Renfordt\Larvatar\Enum\ColorType;
 use SVG\Nodes\Shapes\SVGCircle;
+use SVG\Nodes\Shapes\SVGRect;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
 
@@ -50,14 +52,18 @@ class InitialsAvatar
         $color = $this->getColor($names);
         list($darkColor, $lightColor) = $color->getColorSet();
 
-        $circle = $this->getCircle($halfSize, $lightColor);
+        $type = Config::get('larvatar.initials_avatar.type');
+        $background = match ($type) {
+            'rect' => $this->getRect($lightColor),
+            default => $this->getCircle($halfSize, $lightColor)
+        };
         $initials = $this->getInitials($names, $darkColor);
 
-        $doc->addChild($circle);
+        $doc->addChild($background);
         $doc->addChild($initials);
 
-        if($encoding == 'base64') {
-            return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
+        if ($encoding == 'base64') {
+            return 'data:image/svg+xml;base64,' . base64_encode($larvatar);
         }
         return $larvatar;
     }
@@ -82,7 +88,7 @@ class InitialsAvatar
     private function addFontIfNotEmpty(): void
     {
         if ($this->fontPath != '' && $this->fontFamily != '') {
-            SVG::addFont(__DIR__.$this->fontPath);
+            SVG::addFont(__DIR__ . $this->fontPath);
         }
     }
 
@@ -110,7 +116,7 @@ class InitialsAvatar
         }
         $name = implode(' ', $names);
         $hash = md5($name);
-        return '#'.substr($hash, $offset, 6);
+        return '#' . substr($hash, $offset, 6);
     }
 
     /**
@@ -128,6 +134,12 @@ class InitialsAvatar
         return $circle;
     }
 
+    private function getRect(Color $lightColor): SVGRect
+    {
+        $rect = new SVGRect(0, 0, $this->size, $this->size);
+        $rect->setStyle('fill', $lightColor->getHex());
+        return $rect;
+    }
     /**
      * Generates initials for the given names and returns SVGText object
      * @param  array  $names  List of names
@@ -141,12 +153,14 @@ class InitialsAvatar
             $initialsText .= substr($name, 0, 1);
         }
 
-        $initials = new SVGText($initialsText, '50%', '55%');
+        $fontsize = $this->size * ((-0.5 * tan((1 / 3) * strlen($initialsText) - 1)) / 2 + 0.5);
+
+        $initials = new SVGText($initialsText, '50%', (($this->size - $fontsize) / 2) + $fontsize - ($fontsize / 8));
         $initials->setStyle('fill', $darkColor->getHex());
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setFontFamily($this->fontFamily);
-        $initials->setFontSize($this->size * 0.5 .'px');
+        $initials->setFontSize($this->size . 'px');
 
         return $initials;
     }
