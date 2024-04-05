@@ -165,9 +165,11 @@ class Color
 
     private static function validateParameters(int $hue, float $saturation, float $value): void
     {
-        if ($hue < 0 || $hue > 360 ||
+        if (
+            $hue < 0 || $hue > 360 ||
             $saturation < 0 || $saturation > 1 ||
-            $value < 0 || $value > 1) {
+            $value < 0 || $value > 1
+        ) {
             throw new InvalidArgumentException('Parameters exceed their intended ranges.');
         }
     }
@@ -214,7 +216,7 @@ class Color
     {
         $m = $isLightness ? $value - $chroma / 2 : $value - $chroma;
 
-        return array_map(fn($x) => intval(round(($x + $m) * 255)), [$r, $g, $b]);
+        return array_map(fn ($x) => intval(round(($x + $m) * 255)), [$r, $g, $b]);
     }
 
     /**
@@ -230,7 +232,7 @@ class Color
         $hexr = str_pad(dechex($red), 2, "0", STR_PAD_LEFT);
         $hexg = str_pad(dechex($green), 2, "0", STR_PAD_LEFT);
         $hexb = str_pad(dechex($blue), 2, "0", STR_PAD_LEFT);
-        return $hexr.$hexg.$hexb;
+        return $hexr . $hexg . $hexb;
     }
 
     /**
@@ -311,7 +313,7 @@ class Color
      */
     public function getHex(): string
     {
-        return '#'.$this->hex;
+        return '#' . $this->hex;
     }
 
     /**
@@ -322,8 +324,10 @@ class Color
      */
     public function setHex(string $color): void
     {
-        if (!preg_match("/#[0-9a-fA-F]{3}/", $color) &&
-            !preg_match("/#[0-9a-fA-F]{6}/", $color)) {
+        if (
+            !preg_match("/#[0-9a-fA-F]{3}/", $color) &&
+            !preg_match("/#[0-9a-fA-F]{6}/", $color)
+        ) {
             return;
         }
         $color = substr($color, 1);
@@ -344,11 +348,13 @@ class Color
         if ($lightness <= 0.5) {
             $dark = new Color(ColorType::HSL, $this->hsl);
             $light = new Color(ColorType::HSL, $this->hsl);
-            $light->brighten(50);
+            $light->brighten(40);
+            $dark->darken(40);
         } else {
             $dark = new Color(ColorType::HSL, $this->hsl);
             $light = new Color(ColorType::HSL, $this->hsl);
-            $dark->darken(50);
+            $dark->darken(60);
+            $light->brighten(5);
         }
         return array($dark, $light);
     }
@@ -396,5 +402,4 @@ class Color
         $lightness = self::clamp($lightness - $amount / 100, 0, 1);
         $this->setHSL(array($hue, $saturation, $lightness));
     }
-
 }
