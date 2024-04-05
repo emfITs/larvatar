@@ -160,7 +160,7 @@ class InitialsAvatar
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setFontFamily($this->fontFamily);
-        $initials->setFontSize($this->size . 'px');
+        $initials->setFontSize($fontsize . 'px');
 
         return $initials;
     }
