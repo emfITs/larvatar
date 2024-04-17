@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Color;
@@ -44,7 +46,7 @@ final class InitialsAvatarTest extends TestCase
     {
         $initialsAvatar = new InitialsAvatar();
         $initialsAvatar->setName('Test Name');
-        $initialsAvatar->setFont('Roboto', '/../src/font/Roboto-Bold.ttf');
+        $initialsAvatar->setFont('Roboto', __DIR__ . '/../src/font/Roboto-Bold.ttf');
 
         $this->assertEquals(
             '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #e5b3ca" /><text x="50%" y="55%" style="fill: #852e55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Roboto; font-size: 64px">TN</text></svg>',
@@ -69,7 +71,7 @@ final class InitialsAvatarTest extends TestCase
         $base64 = $initialsAvatar->generate([], 'base64');
 
         $this->assertEquals(
-            'data:image/svg+xml;base64,'.base64_encode($svg),
+            'data:image/svg+xml;base64,' . base64_encode($svg),
             $base64
         );
     }

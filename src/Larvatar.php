@@ -83,7 +83,7 @@ class Larvatar
      * Set the font for Initial Avatar
      * @param  string  $fontFamily  Font family of the used font, e.g. 'Roboto'
      * @param  string  $path  Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
-     * @return void
+     * @return static
      */
     public function setFont(string $fontFamily, string $path): static
     {
@@ -97,7 +97,7 @@ class Larvatar
      * Sets the size of the object.
      *
      * @param  int  $size  The size of the object.
-     * @return void
+     * @return static
      */
     public function setSize(int $size): static
     {
