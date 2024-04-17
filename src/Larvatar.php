@@ -95,6 +95,7 @@ class Larvatar
 
     /**
      * Sets the size of the object.
+     * 
      *
      * @param  int  $size  The size of the object.
      * @return static
