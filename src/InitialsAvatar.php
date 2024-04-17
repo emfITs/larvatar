@@ -36,11 +36,12 @@ class InitialsAvatar
     /**
      * Sets the names for the avatar
      * @param  string  $name  Names seperated by a space for generating the avatar
-     * @return void
+     * @return static
      */
-    public function setName(string $name): void
+    public function setName(string $name): static
     {
         $this->names = explode(' ', $name);
+        return $this;
     }
 
     /**
@@ -228,48 +229,52 @@ class InitialsAvatar
      * Sets the font size for the text
      *
      * @param  int  $size  The font size in pixel
-     * @return void
+     * @return static
      */
-    public function setFontSize(int $size): void
+    public function setFontSize(int $size): static
     {
         $this->fontSize = $size;
+        return $this;
     }
 
     /**
      * Sets the size of the avatar
      * @param  int  $size  Size in pixel
-     * @return void
+     * @return static
      */
-    public function setSize(int $size): void
+    public function setSize(int $size): static
     {
         $this->size = $size;
+        return $this;
     }
 
     /**
      * Sets the font which shall be used for the avatar
      * @param  string  $fontFamily  Font Family, e.g. 'Roboto'
      * @param  string  $path Absolute path to the true type font with a leading slash, e.g. '/font/Roboto-Bold.ttf'
-     * @return void
+     * @return static
      */
-    public function setFont(string $fontFamily, string $path): void
+    public function setFont(string $fontFamily, string $path): static
     {
         $this->fontFamily = $fontFamily;
         $this->fontPath = $path;
+        return $this;
     }
 
     /**
      * Sets the form of the application
      *
      * @param  string|FormTypes  $form  The form type
-     * @return void
+     * @return static
      */
-    public function setForm(string|FormTypes $form): void
+    public function setForm(string|FormTypes $form): static
     {
         if (is_string($form)) {
             $form = FormTypes::from($form);
         }
 
         $this->form = $form;
+        return $this;
     }
 
     /**
@@ -277,21 +282,23 @@ class InitialsAvatar
      *
      * @param  int  $angle  The rotation angle value
      *
-     * @return void
+     * @return static
      */
-    public function setRotation(int $angle): void
+    public function setRotation(int $angle): static
     {
         $this->rotation = $angle;
+        return $this;
     }
 
     /**
      * Sets the font weight
      * @param  string  $fontWeight  The font weight to set
-     * @return void
+     * @return static
      */
-    public function setFontWeight(string $fontWeight): void
+    public function setFontWeight(string $fontWeight): static
     {
         $this->fontWeight = $fontWeight;
+        return $this;
     }
 
     /**
@@ -308,11 +315,12 @@ class InitialsAvatar
      * Sets the lightness of the background
      *
      * @param  float  $lightness  Lightness value (between 0 and 1)
-     * @return void
+     * @return static
      */
-    public function setBackgroundLightness(float $lightness): void
+    public function setBackgroundLightness(float $lightness): static
     {
         $this->backgroundLightness = clamp($lightness, 0, 1);
+        return $this;
     }
 
     /**
@@ -329,11 +337,12 @@ class InitialsAvatar
      * Sets the lightness of the text
      *
      * @param  float  $lightness  Lightness value ranging from 0 to 1
-     * @return void
+     * @return static
      */
-    public function setTextLightness(float $lightness): void
+    public function setTextLightness(float $lightness): static
     {
         $this->textLightness = clamp($lightness, 0, 1);
+        return $this;
     }
 
     /**
@@ -350,10 +359,11 @@ class InitialsAvatar
      * Sets the offset for the avatar
      *
      * @param  int  $offset  The offset in pixel
-     * @return void
+     * @return static
      */
-    public function setOffset(int $offset): void
+    public function setOffset(int $offset): static
     {
         $this->offset = $offset;
+        return $this;
     }
 }
