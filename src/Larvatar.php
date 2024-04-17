@@ -14,6 +14,11 @@ class Larvatar
     protected int $size = 100;
     public InitialsAvatar $initialsAvatar;
 
+    public static function make(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp): static
+    {
+        return new static($name, $email, $type);
+    }
+
     /**
      * Constructs a new instance of the class.
      *
@@ -48,7 +53,7 @@ class Larvatar
             }
             $this->initialsAvatar->setSize($this->size);
             if ($encoding == 'base64') {
-                return '<img src="'.$this->initialsAvatar->generate(encoding: $encoding).'" />';
+                return '<img src="' . $this->initialsAvatar->generate(encoding: $encoding) . '" />';
             } else {
                 return $this->initialsAvatar->generate();
             }
@@ -58,7 +63,7 @@ class Larvatar
         $gravatar->setType($this->type);
         $gravatar->setSize($this->size);
 
-        return '<img src="'.$gravatar->generateGravatarLink().'" />';
+        return '<img src="' . $gravatar->generateGravatarLink() . '" />';
     }
 
     /**
@@ -68,6 +73,9 @@ class Larvatar
      */
     public function getBase64(): string
     {
+        if (isset($this->font) && $this->font != '' && $this->fontPath != '') {
+            $this->initialsAvatar->setFont($this->font, $this->fontPath);
+        }
         return $this->initialsAvatar->generate(encoding: 'base64');
     }
 
@@ -77,10 +85,12 @@ class Larvatar
      * @param  string  $path  Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
      * @return void
      */
-    public function setFont(string $fontFamily, string $path): void
+    public function setFont(string $fontFamily, string $path): static
     {
         $this->font = $fontFamily;
         $this->fontPath = $path;
+
+        return $this;
     }
 
     /**
@@ -89,8 +99,15 @@ class Larvatar
      * @param  int  $size  The size of the object.
      * @return void
      */
-    public function setSize(int $size): void
+    public function setSize(int $size): static
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    public function getInitialsAvatar(): ?InitialsAvatar
+    {
+        return $this->initialsAvatar;
     }
 }

@@ -78,7 +78,7 @@ class InitialsAvatar
         $doc->addChild($initials);
 
         if ($encoding == 'base64') {
-            return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
+            return 'data:image/svg+xml;base64,' . base64_encode($larvatar);
         }
         return $larvatar;
     }
@@ -103,7 +103,7 @@ class InitialsAvatar
     private function addFontIfNotEmpty(): void
     {
         if ($this->fontPath != '' && $this->fontFamily != '') {
-            SVG::addFont(__DIR__.$this->fontPath);
+            SVG::addFont($this->fontPath);
         }
     }
 
@@ -131,7 +131,7 @@ class InitialsAvatar
         }
         $name = implode(' ', $names);
         $hash = md5($name);
-        return '#'.substr($hash, $offset, 6);
+        return '#' . substr($hash, $offset, 6);
     }
 
     /**
@@ -208,7 +208,7 @@ class InitialsAvatar
         if ($this->fontSize == 0) {
             $this->fontSize = $this->calculateFontSize($initialsText);
         }
-        $initials->setFontSize($this->fontSize.'px');
+        $initials->setFontSize($this->fontSize . 'px');
 
         return $initials;
     }
@@ -248,7 +248,7 @@ class InitialsAvatar
     /**
      * Sets the font which shall be used for the avatar
      * @param  string  $fontFamily  Font Family, e.g. 'Roboto'
-     * @param  string  $path  Relative path to the true type font with a leading slash, e.g. '/font/Roboto-Bold.ttf'
+     * @param  string  $path Absolute path to the true type font with a leading slash, e.g. '/font/Roboto-Bold.ttf'
      * @return void
      */
     public function setFont(string $fontFamily, string $path): void
@@ -356,5 +356,4 @@ class InitialsAvatar
     {
         $this->offset = $offset;
     }
-
 }
