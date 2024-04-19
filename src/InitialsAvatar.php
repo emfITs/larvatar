@@ -92,7 +92,7 @@ class InitialsAvatar
      * @param  array  $names  The names array
      * @return array  The names array to be returned
      */
-    private function getNames(array $names): array
+    public function getNames(array $names): array
     {
         return empty($names) ? $this->names : $names;
     }
@@ -114,7 +114,7 @@ class InitialsAvatar
      * @param  array  $names  An array of names
      * @return Color  The color object with the generated hex color
      */
-    private function getColor(array $names): Color
+    public function getColor(array $names): Color
     {
         return new Color(ColorType::Hex, $this->generateHexColor($names, $this->offset));
     }
@@ -193,7 +193,7 @@ class InitialsAvatar
      * @param  Color  $darkColor  Dark color object
      * @return SVGText  SVGText object containing the initials
      */
-    private function getInitials(array $names, Color $darkColor): SVGText
+    public function getInitials(array $names, Color $darkColor): SVGText
     {
         $initialsText = '';
         foreach ($names as $name) {
@@ -220,7 +220,7 @@ class InitialsAvatar
      * @param  string  $initials  The initials to calculate the font size for
      * @return int  The calculated font size
      */
-    protected function calculateFontSize(string $initials): int
+    public function calculateFontSize(string $initials): int
     {
         return intval($this->size * (0.5 - sin(0.5 * strlen($initials) - 1) / 5));
     }
